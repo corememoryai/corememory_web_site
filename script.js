@@ -102,7 +102,7 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
   });
 });
 
-// ---------- Demo form: submit + toast + email ----------
+// ---------- Demo form: simple submit + toast ----------
 const form = document.querySelector(".cta__form");
 const toast = document.querySelector(".toast");
 
@@ -110,45 +110,23 @@ if (form) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
+    // basic validity check (HTML required attributes also work)
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
 
-    const formData = {
-      name: form.name.value,
-      title: form.title.value,
-      email: form.email.value,
-      company: form.company.value,
-      size: form.size.value,
-    };
+    if (toast) {
+      toast.textContent = "Thanks! We’ll reach out shortly to schedule your demo.";
+      toast.style.opacity = "1";
+    }
 
-    emailjs
-      .send(
-        "service_s5lf4bk",
-        "template_ucewe8p",
-        formData
-      )
-      .then(() => {
-        if (toast) {
-          toast.textContent =
-            "Thanks! We’ll reach out shortly to schedule your demo.";
-          toast.style.opacity = "1";
-        }
+    form.reset();
 
-        form.reset();
-
-        setTimeout(() => {
-          if (toast) toast.textContent = "";
-        }, 4000);
-      })
-      .catch((error) => {
-        console.error("EmailJS error:", error);
-        if (toast) {
-          toast.textContent =
-            "Something went wrong. Please try again later.";
-          toast.style.opacity = "1";
-        }
-      });
+    if (toast) {
+      setTimeout(() => {
+        toast.textContent = "";
+      }, 4000);
+    }
   });
 }
