@@ -36,6 +36,18 @@ if (form) {
       return;
     }
 
+    console.log("Sending EmailJS request with:", {
+  service: "service_s5lf4bk",
+  template: "template_ucewe8p",
+  payload: {
+    name: form.name.value,
+    title: form.title.value,
+    email: form.email.value,
+    company: form.company.value,
+    size: form.size.value,
+  },
+  });
+
     emailjs
       .send(
         "service_s5lf4bk",      // ✅ SERVICE ID 
@@ -62,8 +74,24 @@ if (form) {
         }, 4000);
       })
       .catch((error) => {
-        console.error("EmailJS ERROR:", error);
-        alert("Mail gönderilemedi. Konsolu kontrol et.");
-      });
+  console.error("EMAILJS ERROR FULL:", error);
+
+  const message = `
+❌ Email gönderilemedi
+
+status: ${error.status}
+text: ${error.text || "no text"}
+message: ${error.message || "no message"}
+raw: ${JSON.stringify(error)}
+`;
+
+  alert(message);
+
+  if (toast) {
+    toast.textContent = "Error sending request. Check console.";
+    toast.style.opacity = "1";
+  }
+});
+
   });
 }
