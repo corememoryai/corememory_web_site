@@ -38,7 +38,7 @@ if (form) {
 
     emailjs
       .send(
-        "service_jn6ll94",      // ✅ SERVICE ID
+        "service_s5lf4bk",      // ✅ SERVICE ID 
         "template_ucewe8p",     // ✅ TEMPLATE ID
         {
           name: form.name.value,
